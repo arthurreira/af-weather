@@ -1,3 +1,4 @@
+import { getWeatherInfo } from "@/lib/weatherCodes"
 import { CITIES } from "../../../lib/cities"
 
 export async function GET(request: Request) {
@@ -27,6 +28,8 @@ export async function GET(request: Request) {
             temperature: data.current.temperature_2m,
             windSpeed: data.current.wind_speed_10m,
             weatherCode: data.current.weather_code,
+            description: getWeatherInfo(data.current.weather_code).description,
+            emoji: getWeatherInfo(data.current.weather_code).emoji,
         })
     } catch (error) {
         console.error('Error:', error)
