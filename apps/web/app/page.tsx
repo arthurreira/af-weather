@@ -1,15 +1,23 @@
-import { Button } from "@arthurreira/ui/components/button"
+import CitySearch from "@/components/CitySearch"
+import { CITIES } from "@/lib/cities"
 
-export default function Home() {
-  return (
-    <div className="flex flex-col gap-4 p-8">
-      <h1 className="text-2xl font-bold">Button Test</h1>
-      <Button variant="default">Default</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="ghost">Ghost</Button>
-      <Button variant="link">Link</Button>
-      <Button variant="destructive">Destructive</Button>
-    </div>
+export default async function Page() {
+  const results = await Promise.all(
+    CITIES.map(async city => {
+      const res = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,wind_speed_10m,weather_code`,
+        { next: { revalidate: 1800 } }
+      )
+      const data = await res.json()
+      return {
+        city: city.name,
+        country: city.country,
+        temperature: data.current.temperature_2m,
+        windSpeed: data.current.wind_speed_10m,
+        weatherCode: data.current.weather_code,
+      }
+    })
   )
+
+  return <CitySearch results={results} />
 }
