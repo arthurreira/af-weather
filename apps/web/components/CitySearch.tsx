@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { Input } from "./ui/input"
-import WeatherCard from "@/components/WeatherCard"
+import { CardGrid } from "@arthurreira/ui/client"
+import { CardItem } from "@arthurreira/ui"
 
 interface CitySearchProps {
     results: {
@@ -13,12 +14,12 @@ interface CitySearchProps {
         weatherCode: number
     }[]
 }
+
 export default function CitySearch({ results }: CitySearchProps) {
     const [query, setQuery] = useState('')
     const filtered = results.filter(r =>
         r.city.toLowerCase().includes(query.toLowerCase())
     )
-
 
     const grouped = filtered.reduce((acc, city) => {
         const key = city.country
@@ -33,25 +34,25 @@ export default function CitySearch({ results }: CitySearchProps) {
                 placeholder="Search city..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-
             />
 
-            {Object.entries(grouped).map(([country, cities]) => (
-                <div key={country} className="space-y-3 mt-6">
-                    <h2 className="text-lg font-semibold tracking-tight">
-                        {country === "Finland" ? "🇫🇮" : "🇧🇷"} {country}
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" style={{ gridTemplateRows: 'auto' }}>
-                        {cities.map((city, index) => (
-                            <div key={city.city} className={index === 0 ? "row-span-2" : ""}>
-                                <WeatherCard {...city} />
-                            </div>
-                        ))}
+            {Object.entries(grouped).map(([country, cities]) => {
+                const cards: CardItem[] = cities.map((city, index) => ({
+                    id: `${country}-${city.city}`,
+                    title: city.city,
+                    description: `${city.temperature}°C · ${city.windSpeed} km/h`,
+                    size: index === 0 ? "large" : "small",
+                }))
+
+                return (
+                    <div key={country} className="space-y-3 mt-6">
+                        <h2 className="text-lg font-semibold tracking-tight">
+                            {country === "Finland" ? "🇫🇮" : "🇧🇷"} {country}
+                        </h2>
+                        <CardGrid cards={cards} />
                     </div>
-
-                </div>
-            ))}
-
+                )
+            })}
         </>
     )
 }

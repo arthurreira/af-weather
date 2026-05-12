@@ -17,10 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-
-        <body className={inter.variable}>
+    <html lang="en" className={cn("font-sans", inter.variable)} suppressHydrationWarning>
+      <body className={inter.variable}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 
           <main className="container mx-auto p-2">
             <nav className="w-full  ">
@@ -51,11 +50,11 @@ export default function RootLayout({
             </nav>
 
             {children}
-            
+
 
           </main>
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
 
     </html>
   );
