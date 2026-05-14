@@ -2,9 +2,8 @@
 
 import { useState } from "react"
 import { Input } from "./ui/input"
-import { CardGrid } from "@arthurreira/ui/client"
-import { CardItem } from "@arthurreira/ui"
-
+import { CardGrid } from "@/components/ui/card-grid"
+import type { CardItem } from "@/lib/cards"
 interface CitySearchProps {
     results: {
         city: string
