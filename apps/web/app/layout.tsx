@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
-import { Github, GithubIcon, HugeiconsIcon } from "@hugeicons/core-free-icons";
 import { Analytics } from '@arthurreira/analytics/client'
 import { ThemeProvider } from "@/components/theme-provider";
 import { buttonVariants } from "@arthurreira/ui";
