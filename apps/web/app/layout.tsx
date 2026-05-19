@@ -4,8 +4,10 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
-import { ThemeProvider } from "@/components/theme-provider";
 import { Github, GithubIcon, HugeiconsIcon } from "@hugeicons/core-free-icons";
+import { Analytics } from '@arthurreira/analytics/client'
+import { ThemeProvider } from "@/components/theme-provider";
+import { buttonVariants } from "@arthurreira/ui";
 export const metadata: Metadata = {
   title: "af-weather | Finnish & Brazilian Cities",
   description: "Weather for cities in Finland and Brazil"
@@ -31,8 +33,15 @@ export default function RootLayout({
                   Af Weather
                 </Link>
                 <div className="mx-auto">
-
-                  {/*  if needed, add more nav items here and they will be centered due to mx-auto on this div */}
+                <Link
+                  href="/about"
+                  className={cn(
+                    buttonVariants({ variant: "link" }),
+                  )}
+                >
+                  About
+                </Link>
+                 
                 </div>
                 <Link
                   href="https://github.com/arthurreira/af-weather"
@@ -48,7 +57,10 @@ export default function RootLayout({
             </div>
 
             </nav>
-
+              <Analytics 
+                apiKey={process.env.NEXT_PUBLIC_ANALYTICS_KEY!}
+                apiUrl={process.env.NEXT_PUBLIC_ANALYTICS_URL!}
+              />
             {children}
 
 
